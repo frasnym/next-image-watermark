@@ -27,7 +27,7 @@ const ImagePreviewContainer = styled.div`
 `
 
 const ImageOriginalContainer = styled.div`
-  // display: none;
+  display: none;
 `
 
 const Canvas: NextPage<CanvasProps> = ({ text, imgSrc, updateDownloadHandler }) => {

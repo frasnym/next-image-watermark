@@ -66,18 +66,10 @@ const ImagePreviewContainer = styled.div`
 const Home: NextPage = () => {
   const [watermarkText, setWatermarkText] = useState<string>("FrasNym")
   const [fileName, setFileName] = useState<string>("")
-  // const [imageSize, setImageSize] = useState<ImageSize>({ width: 0, height: 0 })
   const [imageURL, setImageURL] = useState<string>()
   const [dlOriginal, setDlOriginal] = useState<string>()
 
   function fileChangeHandler(file: File) {
-    // const tmp = new Image()
-    // tmp.src = URL.createObjectURL(file);
-    // tmp.onload = function () {
-    //   setImageSize({ width: tmp.width, height: tmp.height })
-    //   URL.revokeObjectURL(tmp.src);
-    // };
-
     setImageURL(URL.createObjectURL(file))
     setFileName(file.name)
   }
