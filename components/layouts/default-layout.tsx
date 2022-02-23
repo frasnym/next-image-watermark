@@ -3,6 +3,7 @@ import Head from "next/head";
 // import Footer from "../ui/footer";
 import { NextPage } from "next";
 import NavBar from "../ui/navbar";
+import Footer from "../ui/footer";
 // import NavBar from "../ui/navbar";
 
 type DefaultLayoutProps = {
@@ -52,6 +53,7 @@ const DefaultLayout: NextPage<DefaultLayoutProps> = function ({ children, title 
       <NavBar />
       <PageContainer>
         {children}
+        <Footer />
       </PageContainer>
     </Container>
   );
