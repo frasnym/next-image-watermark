@@ -21,6 +21,9 @@ const FormContainer = styled.div`
 
 const FormInput = styled.div`
   display: flex;
+  align-items: stretch;
+  flex-direction: row;
+  width: 100%;
   @media (max-width: 425px) {
     display: block;
   }
@@ -29,6 +32,7 @@ const FormInput = styled.div`
 const FormGroup = styled.div`
   text-align: left;
   padding: 1rem;
+  flex: 1;
   & > label {
     display: block;
     padding-bottom: 0.5rem;
@@ -45,7 +49,8 @@ const FormFooter = styled.div`
 `
 
 const Home: NextPage = () => {
-  const [watermarkText, setWatermarkText] = useState<string>("FrasNym")
+  const now = new Intl.DateTimeFormat('id-ID').format(new Date())
+  const [watermarkText, setWatermarkText] = useState<string>(`${now}\nSomething good`)
   const [fileName, setFileName] = useState<string>("")
   const [imageURL, setImageURL] = useState<string>()
   const [dlOriginal, setDlOriginal] = useState<string>()
