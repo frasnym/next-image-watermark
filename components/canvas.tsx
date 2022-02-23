@@ -24,6 +24,7 @@ const ImagePreviewContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  background: white;
 `
 
 const ImageOriginalContainer = styled.div`
@@ -65,7 +66,7 @@ const Canvas: NextPage<CanvasProps> = ({ text, imgSrc, updateDownloadHandler }) 
     ctx.drawImage(img.current, 0, 0, img.current.width, img.current.height,     // source rectangle
       0, 0, canvas.width, canvas.height); // destination rectangle
     ctx.font = `${(canvas.width + canvas.height) / 20}px sans-serif`;
-    ctx.fillStyle = "rgba(255, 255, 255, 0.6)";
+    ctx.fillStyle = "rgba(247, 247, 247, 0.8)";
     ctx.textAlign = "center";
     const lineheight = (canvas.width + canvas.height) / 20;
     const lines = text.split('\n');

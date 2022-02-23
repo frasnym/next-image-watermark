@@ -12,7 +12,7 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: var(--color-bg-primary-transparent);
+  background: var(--color-bg-transparent);
 `
 
 const SupportBtn = styled.a`
@@ -28,10 +28,19 @@ const SupportBtn = styled.a`
   }
 `
 
+const Logo = styled.text`
+  color: var(--color-text-primary);
+  text-shadow: 2px 2px 4px var(--color-text-secondary);
+  text-transform: capitalize;
+  font-size: 2rem;
+  font-weight: bold;
+  text-decoration: underline;
+`
+
 const NavBar: NextPage = () => {
   return (
     <Container>
-      Watermark on Image
+      <Logo>Watermark on Image</Logo>
       <SupportBtn
         href='https://linktr.ee/frasnym'
         target="_blank"

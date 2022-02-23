@@ -16,6 +16,7 @@ const FormContainer = styled.div`
   border: 2px solid black;
   border-radius: 1rem;
   padding: 10px;
+  background: white;
 `
 
 const FormInput = styled.div`
