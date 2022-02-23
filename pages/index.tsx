@@ -1,26 +1,15 @@
 import type { NextPage } from 'next'
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import Canvas from '../components/canvas'
 import FileInput from '../components/input/file-input'
-import TextInput from '../components/input/text-input'
 import TextAreaInput from '../components/input/textarea-input'
 import DefaultLayout from '../components/layouts/default-layout'
 import Button from '../components/ui/button'
 
-type ImageSize = {
-  width: number,
-  height: number,
-}
-
 const Container = styled.div`
   width: 100%;
   padding-top: 5rem;
-`
-
-const ImageContainer = styled.div`
-  width: 50rem;
-  display: inline-block;
 `
 
 const FormContainer = styled.div`
@@ -54,15 +43,6 @@ const FormFooter = styled.div`
   }
 `
 
-const ImagePreviewContainer = styled.div`
-  border: 2px solid black;
-  margin: 1rem auto;
-  border-radius: 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`
-
 const Home: NextPage = () => {
   const [watermarkText, setWatermarkText] = useState<string>("FrasNym")
   const [fileName, setFileName] = useState<string>("")
@@ -78,10 +58,6 @@ const Home: NextPage = () => {
     setWatermarkText(text)
   }
 
-  function updateDlOriginal(str: string) {
-    setDlOriginal(str)
-  }
-
   function downloadOriginal() {
     if (!dlOriginal) return
 
@@ -91,35 +67,33 @@ const Home: NextPage = () => {
     link.click();
   }
 
+  const Form = <FormContainer>
+    <FormInput>
+      <FormGroup>
+        <label>Image File</label>
+        <FileInput fileChangeHandler={fileChangeHandler} />
+      </FormGroup>
+      <FormGroup>
+        <label>Watermark Text</label>
+        <TextAreaInput
+          textChangeHandler={textChangeHandler}
+          defaultText={watermarkText} />
+      </FormGroup>
+    </FormInput>
+    <FormFooter>
+      <hr />
+      <Button text='Download' handler={downloadOriginal} />
+    </FormFooter>
+  </FormContainer>
+
   return (
     <DefaultLayout title=''>
       <Container>
-        {generateForm()}
-        <Canvas imgSrc={imageURL || ''} text={watermarkText} updateDownloadHandler={updateDlOriginal} />
+        {Form}
+        <Canvas imgSrc={imageURL || ''} text={watermarkText} updateDownloadHandler={(str: string) => setDlOriginal(str)} />
       </Container>
     </DefaultLayout>
   )
-
-  function generateForm() {
-    return <FormContainer>
-      <FormInput>
-        <FormGroup>
-          <label>Image File</label>
-          <FileInput fileChangeHandler={fileChangeHandler} />
-        </FormGroup>
-        <FormGroup>
-          <label>Watermark Text</label>
-          <TextAreaInput
-            textChangeHandler={textChangeHandler}
-            defaultText={watermarkText} />
-        </FormGroup>
-      </FormInput>
-      <FormFooter>
-        <hr />
-        <Button text='Download' handler={downloadOriginal} />
-      </FormFooter>
-    </FormContainer>
-  }
 }
 
 export default Home

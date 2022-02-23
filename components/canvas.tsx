@@ -40,10 +40,6 @@ const Canvas: NextPage<CanvasProps> = ({ text, imgSrc, updateDownloadHandler }) 
     const ctxOriginal = canvasOriginalRef.current.getContext("2d");
     if (!ctxPreview || !ctxOriginal) return
 
-    img.current.onload = () => {
-      handleResize()
-    }
-
     const handleResize = () => {
       ctxPreview.canvas.height = window.innerHeight - 400;
       ctxPreview.canvas.width = window.innerWidth - 50;
@@ -54,6 +50,8 @@ const Canvas: NextPage<CanvasProps> = ({ text, imgSrc, updateDownloadHandler }) 
       draw(ctxOriginal)
       updateDownloadHandler(ctxOriginal.canvas.toDataURL("image/jpeg"))
     };
+
+    img.current.onload = () => handleResize()
     handleResize();
 
     window.addEventListener("resize", handleResize);
