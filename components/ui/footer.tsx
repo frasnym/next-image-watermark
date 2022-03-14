@@ -1,6 +1,5 @@
 import type { NextPage } from 'next'
 import styled from "styled-components";
-import Emoji from './emoji';
 
 const Container = styled.footer`
   width: 100%;
