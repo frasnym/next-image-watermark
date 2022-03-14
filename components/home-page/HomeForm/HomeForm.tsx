@@ -1,5 +1,4 @@
 import type { NextPage } from "next";
-import { ImageSize } from "../../../types";
 import FileInput from "../../input/FileInput";
 import TextAreaInput from "../../input/TextAreaInput";
 import Button from "../../ui/Button";
@@ -16,8 +15,6 @@ interface HomeFormProps {
   onImageChangeHandler: (file: File) => void;
   watermarkText: string;
   onWatermarkChangeHandler: (text: string) => void;
-  imageSize: ImageSize;
-  onImageSizeChangeHandler: (imgSize: ImageSize) => void;
 }
 
 const HomeForm: NextPage<HomeFormProps> = function (props) {

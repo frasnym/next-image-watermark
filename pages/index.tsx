@@ -1,10 +1,9 @@
 import type { NextPage } from "next";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import styled from "styled-components";
-import Canvas from "../components/canvas";
+import HomeCanvas from "../components/home-page/HomeCanvas";
 import HomeForm from "../components/home-page/HomeForm";
 import DefaultLayout from "../components/layouts/default-layout";
-import { ImageSize } from "../types";
 
 const Container = styled.div`
   width: 100%;
@@ -18,11 +17,16 @@ const Home: NextPage = () => {
   );
   const [imageName, setImageName] = useState<string>("");
   const [imageURL, setImageURL] = useState<string>();
-  const [imageSize, setImageSize] = useState<ImageSize>({
-    height: 0,
-    width: 0,
-  });
   const [imageDownloadUrl, setImageDownloadUrl] = useState<string>();
+
+  const canvasProps = {
+    imgSrc: imageURL || "",
+    watermarkText,
+    onCanvasUpdateHandler: useCallback(
+      (str: string) => setImageDownloadUrl(str),
+      [setImageDownloadUrl]
+    ),
+  };
 
   const homeFormProps = {
     imageName,
@@ -33,19 +37,13 @@ const Home: NextPage = () => {
     },
     watermarkText,
     onWatermarkChangeHandler: (text: string) => setWatermarkText(text),
-    imageSize,
-    onImageSizeChangeHandler: (imgSize: ImageSize) => setImageSize(imgSize),
   };
 
   return (
     <DefaultLayout title="">
       <Container>
         <HomeForm {...homeFormProps} />
-        <Canvas
-          imgSrc={imageURL || ""}
-          text={watermarkText}
-          updateDownloadHandler={(str: string) => setImageDownloadUrl(str)}
-        />
+        <HomeCanvas {...canvasProps} />
       </Container>
     </DefaultLayout>
   );
