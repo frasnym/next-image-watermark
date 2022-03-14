@@ -5,7 +5,7 @@ import Canvas from '../components/canvas'
 import FileInput from '../components/input/file-input'
 import TextAreaInput from '../components/input/textarea-input'
 import DefaultLayout from '../components/layouts/default-layout'
-import Button from '../components/ui/button'
+import Button from '../components/ui/Button'
 
 const Container = styled.div`
   width: 100%;
@@ -88,7 +88,7 @@ const Home: NextPage = () => {
     </FormInput>
     <FormFooter>
       <hr />
-      <Button text='Download' handler={downloadOriginal} />
+      <Button text='Download' onClickHandler={downloadOriginal} />
     </FormFooter>
   </FormContainer>
 
