@@ -1,105 +1,55 @@
-import type { NextPage } from 'next'
-import React, { useState } from 'react'
-import styled from 'styled-components'
-import Canvas from '../components/canvas'
-import FileInput from '../components/input/file-input'
-import TextAreaInput from '../components/input/textarea-input'
-import DefaultLayout from '../components/layouts/default-layout'
-import Button from '../components/ui/button'
+import type { NextPage } from "next";
+import React, { useCallback, useState } from "react";
+import styled from "styled-components";
+import HomeCanvas from "../components/home-page/HomeCanvas";
+import HomeForm from "../components/home-page/HomeForm";
+import DefaultLayout from "../components/layouts/default-layout";
 
 const Container = styled.div`
   width: 100%;
   padding-top: 5rem;
-`
-
-const FormContainer = styled.div`
-  border: 2px solid black;
-  border-radius: 1rem;
-  padding: 10px;
-  background: white;
-`
-
-const FormInput = styled.div`
-  display: flex;
-  align-items: stretch;
-  flex-direction: row;
-  width: 100%;
-  @media (max-width: 425px) {
-    display: block;
-  }
-`
-
-const FormGroup = styled.div`
-  text-align: left;
-  padding: 1rem;
-  flex: 1;
-  & > label {
-    display: block;
-    padding-bottom: 0.5rem;
-  }
-`
-
-const FormFooter = styled.div`
-  width: 100%;
-  padding: 1rem;
-  text-align: right;
-  & button {
-    margin-left: 1rem;
-  }
-`
+`;
 
 const Home: NextPage = () => {
-  const now = new Intl.DateTimeFormat('id-ID').format(new Date())
-  const [watermarkText, setWatermarkText] = useState<string>(`${now}\nSomething good`)
-  const [fileName, setFileName] = useState<string>("")
-  const [imageURL, setImageURL] = useState<string>()
-  const [dlOriginal, setDlOriginal] = useState<string>()
+  const now = new Intl.DateTimeFormat("id-ID").format(new Date());
+  const [watermarkText, setWatermarkText] = useState<string>(
+    `${now}\nSomething good`
+  );
+  const [imageName, setImageName] = useState<string>("");
+  const [imageType, setImageType] = useState<string>("");
+  const [imageURL, setImageURL] = useState<string>();
+  const [imageDownloadUrl, setImageDownloadUrl] = useState<string>();
 
-  function fileChangeHandler(file: File) {
-    setImageURL(URL.createObjectURL(file))
-    setFileName(file.name)
-  }
+  const canvasProps = {
+    imgSrc: imageURL || "",
+    watermarkText,
+    onCanvasUpdateHandler: useCallback(
+      (canvasCtx: CanvasRenderingContext2D) =>
+        setImageDownloadUrl(canvasCtx.canvas.toDataURL(imageType)),
+      [setImageDownloadUrl, imageType]
+    ),
+  };
 
-  function textChangeHandler(text: string) {
-    setWatermarkText(text)
-  }
-
-  function downloadOriginal() {
-    if (!dlOriginal) return
-
-    const link = document.createElement('a');
-    link.download = fileName;
-    link.href = dlOriginal;
-    link.click();
-  }
-
-  const Form = <FormContainer>
-    <FormInput>
-      <FormGroup>
-        <label>Image File</label>
-        <FileInput fileChangeHandler={fileChangeHandler} />
-      </FormGroup>
-      <FormGroup>
-        <label>Watermark Text</label>
-        <TextAreaInput
-          textChangeHandler={textChangeHandler}
-          defaultText={watermarkText} />
-      </FormGroup>
-    </FormInput>
-    <FormFooter>
-      <hr />
-      <Button text='Download' handler={downloadOriginal} />
-    </FormFooter>
-  </FormContainer>
+  const homeFormProps = {
+    imageName,
+    imageDownloadUrl,
+    onImageChangeHandler: function (file: File) {
+      setImageURL(URL.createObjectURL(file));
+      setImageName(file.name);
+      setImageType(file.type);
+    },
+    watermarkText,
+    onWatermarkChangeHandler: (text: string) => setWatermarkText(text),
+  };
 
   return (
-    <DefaultLayout title=''>
+    <DefaultLayout title="">
       <Container>
-        {Form}
-        <Canvas imgSrc={imageURL || ''} text={watermarkText} updateDownloadHandler={(str: string) => setDlOriginal(str)} />
+        <HomeForm {...homeFormProps} />
+        <HomeCanvas {...canvasProps} />
       </Container>
     </DefaultLayout>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
