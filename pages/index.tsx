@@ -16,6 +16,7 @@ const Home: NextPage = () => {
     `${now}\nSomething good`
   );
   const [imageName, setImageName] = useState<string>("");
+  const [imageType, setImageType] = useState<string>("");
   const [imageURL, setImageURL] = useState<string>();
   const [imageDownloadUrl, setImageDownloadUrl] = useState<string>();
 
@@ -23,8 +24,9 @@ const Home: NextPage = () => {
     imgSrc: imageURL || "",
     watermarkText,
     onCanvasUpdateHandler: useCallback(
-      (str: string) => setImageDownloadUrl(str),
-      [setImageDownloadUrl]
+      (canvasCtx: CanvasRenderingContext2D) =>
+        setImageDownloadUrl(canvasCtx.canvas.toDataURL(imageType)),
+      [setImageDownloadUrl, imageType]
     ),
   };
 
@@ -34,6 +36,7 @@ const Home: NextPage = () => {
     onImageChangeHandler: function (file: File) {
       setImageURL(URL.createObjectURL(file));
       setImageName(file.name);
+      setImageType(file.type);
     },
     watermarkText,
     onWatermarkChangeHandler: (text: string) => setWatermarkText(text),

@@ -10,7 +10,7 @@ import {
 interface HomeCanvasProps {
   watermarkText: string;
   imgSrc: string;
-  onCanvasUpdateHandler: (imgUrl: string) => void;
+  onCanvasUpdateHandler: (canvasCtx: CanvasRenderingContext2D) => void;
 }
 
 const HomeCanvas: NextPage<HomeCanvasProps> = ({
@@ -38,7 +38,7 @@ const HomeCanvas: NextPage<HomeCanvasProps> = ({
       ctxOriginal.canvas.height = imgRef.current.height;
       ctxOriginal.canvas.width = imgRef.current.width;
       draw(ctxOriginal, watermarkText, imgRef);
-      onCanvasUpdateHandler(ctxOriginal.canvas.toDataURL("image/jpeg"));
+      onCanvasUpdateHandler(ctxOriginal);
     };
 
     imgRef.current.onload = () => handleResize();
